@@ -1,6 +1,7 @@
 # make slack-client
-
-CRA를 사용하지 말고 직접 세팅합니다.
+<br/>
+CRA를 사용하지 않고 직접 세팅합니다.
+<br/>
 <br/>
 기술 스택
 <br/>
