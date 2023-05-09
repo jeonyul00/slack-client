@@ -3,7 +3,7 @@ import { Button, Error, Form, Header, Input, Label, LinkContainer, Success } fro
 import fetcher from '@utils/fetcher';
 import axios from 'axios';
 import React, { useCallback, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import useSWR from 'swr';
 
 const SignUp = () => {
@@ -17,7 +17,7 @@ const SignUp = () => {
   const [passwordCheck, , setPasswordCheck] = useInput('');
 
   const onChangePassword = useCallback(
-    (e) => {
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       setPassword(e.target.value);
       setMismatchError(passwordCheck !== e.target.value);
     },
@@ -25,7 +25,7 @@ const SignUp = () => {
   );
 
   const onChangePasswordCheck = useCallback(
-    (e: any) => {
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       setPasswordCheck(e.target.value);
       setMismatchError(password !== e.target.value);
     },
@@ -33,7 +33,7 @@ const SignUp = () => {
   );
 
   const onSubmit = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.SyntheticEvent) => {
       e.preventDefault();
       if (!nickname || !nickname.trim()) {
         return;
@@ -56,12 +56,12 @@ const SignUp = () => {
   );
 
   if (userData) {
-    return <Navigate to="/workspace/sleact" />;
+    return <Link to="/workspace/sleact" />;
   }
 
   return (
     <div id="container">
-      <Header>Sleact</Header>
+      <Header>slack</Header>
       <Form onSubmit={onSubmit}>
         <Label id="email-label">
           <span>이메일 주소</span>

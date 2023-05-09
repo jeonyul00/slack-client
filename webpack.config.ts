@@ -84,7 +84,7 @@ const config: webpack.Configuration = {
     static: { directory: path.resolve(__dirname) },
     proxy: {
       '/api/': {
-        target: 'http://localhost:3095',
+        target: 'http://localhost:3095', // cors error를 프론트에서 처리할 때 : 요청을 마치 3095가 보낸것 처럼 변경 == 같은 도메인끼리 통신하는 것처럼 속임
         changeOrigin: true,
         ws: true,
       },
