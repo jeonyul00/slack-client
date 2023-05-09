@@ -3,11 +3,11 @@ import { Button, Error, Form, Header, Input, Label, LinkContainer } from '@pages
 import fetcher from '@utils/fetcher';
 import axios from 'axios';
 import React, { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import useSWR from 'swr';
 
 const Login = () => {
-  const { data: userData, error, mutate } = useSWR('/api/users', fetcher);
+  const { data: userData, error, mutate } = useSWR('/api/users', fetcher); // mutate : 서버에 요청을 안 보내고 data 데이터를 수정
   const [logInError, setLogInError] = useState(false);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -24,8 +24,8 @@ const Login = () => {
             withCredentials: true,
           },
         )
-        .then(() => {
-          mutate();
+        .then((response) => {
+          mutate(response.data);
         })
         .catch((error) => {
           console.dir(error);
@@ -38,12 +38,12 @@ const Login = () => {
   console.log(error, userData);
   if (!error && userData) {
     console.log('로그인됨', userData);
-    return <Link to="/workspace/sleact/channel/일반" />;
+    return <Navigate to="/workspace/channel" />;
   }
 
   return (
     <div id="container">
-      <Header>Sleact</Header>
+      <Header>slack</Header>
       <Form onSubmit={onSubmit}>
         <Label id="email-label">
           <span>이메일 주소</span>

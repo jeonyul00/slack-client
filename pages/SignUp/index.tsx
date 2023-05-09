@@ -3,7 +3,7 @@ import { Button, Error, Form, Header, Input, Label, LinkContainer, Success } fro
 import fetcher from '@utils/fetcher';
 import axios from 'axios';
 import React, { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import useSWR from 'swr';
 
 const SignUp = () => {
@@ -56,7 +56,7 @@ const SignUp = () => {
   );
 
   if (userData) {
-    return <Link to="/workspace/sleact" />;
+    return <Navigate to="/workspace/channel" />;
   }
 
   return (
