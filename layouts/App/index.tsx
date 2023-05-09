@@ -5,7 +5,7 @@ import loadable from '@loadable/component';
 // code splitting
 const LogIn = loadable(() => import('@pages/Login'));
 const SignUp = loadable(() => import('@pages/SignUp'));
-const Channel = loadable(() => import('../pages/Channel'));
+const Channel = loadable(() => import('../../pages/Channel'));
 
 const App = () => {
   return (
