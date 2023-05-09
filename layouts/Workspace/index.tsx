@@ -1,7 +1,7 @@
 import fetcher from '@utils/fetcher';
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Navigate } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import useSWR from 'swr';
 import {
   Channels,
@@ -15,11 +15,12 @@ import {
   Workspaces,
 } from './styles';
 import gravatar from 'gravatar';
+import loadable from '@loadable/component';
 
-interface Props {
-  children: React.ReactNode;
-}
-const Workspace: React.FC<Props> = ({ children }) => {
+const Channel = loadable(() => import('@pages/Channel'));
+const DirectMessage = loadable(() => import('@pages/DirectMessage'));
+
+const Workspace: React.FC = () => {
   const { data: userData, error, mutate } = useSWR('/api/users', fetcher);
 
   const onLogout = useCallback(() => {
@@ -50,7 +51,12 @@ const Workspace: React.FC<Props> = ({ children }) => {
           <WorkspaceName>slack</WorkspaceName>
           <MenuScroll>MenuScroll</MenuScroll>
         </Channels>
-        <Chats>Chats</Chats>
+        <Chats>
+          <Routes>
+            <Route path=":channel" element={<Channel />} />
+            <Route path=":dm" element={<DirectMessage />} />
+          </Routes>
+        </Chats>
       </WorkspaceWrapper>
     </div>
   );
