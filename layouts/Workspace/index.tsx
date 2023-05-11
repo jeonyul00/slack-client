@@ -33,6 +33,7 @@ import InviteWorkspaceModal from '@components/InviteWorkspaceModal';
 import InviteChannelModal from '@components/InviteChannelModal';
 import DMList from '@components/DMList';
 import ChannelList from '@components/ChannelList';
+import useSocket from '@hooks/useSocket';
 
 const Channel = loadable(() => import('@pages/Channel'));
 const DirectMessage = loadable(() => import('@pages/DirectMessage'));
@@ -47,7 +48,7 @@ interface responesType {
 
 const Workspace: React.FC = () => {
   const { workspace } = useParams();
-  const { data: userData, error, mutate } = useSWR('/api/users', fetcher);
+  const { data: userData, mutate } = useSWR('/api/users', fetcher);
   const { data: channelData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
   const { data: memberData } = useSWR<IUser[]>(userData ? `/api/workspaces/${workspace}/members` : null, fetcher);
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -58,12 +59,27 @@ const Workspace: React.FC = () => {
   const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
   const [showInviteWorkspaceModal, setShowInviteWorkspaceModal] = useState(false);
   const [showInviteChannelModal, setShowInviteChannelModal] = useState(false);
+  const [socket, disconnect] = useSocket(workspace);
+
+  useEffect(() => {
+    if (channelData && userData && socket) {
+      // 워크스페이스, 채널이 로딩 완료되었을 때 서버에 로그인했음을 알리는 이벤트
+      socket.emit('login', { id: userData.id, channels: channelData.map((value) => value.id) });
+    }
+  }, [socket, channelData, userData]);
+
+  useEffect(() => {
+    // 워크스페이스가 바뀔 때 clean up, 클라이언트에서 소켓 연결을 종료하는 함수
+    return () => {
+      disconnect();
+    };
+  }, [workspace, disconnect]);
 
   const onLogout = useCallback(() => {
     axios.post('/api/users/logout', null, { withCredentials: true }).then(() => {
       mutate(false);
     });
-  }, []);
+  }, [mutate]);
 
   const onClickUserProfile = useCallback((e: React.MouseEvent) => {
     e.stopPropagation(); // 이벤트 버블링 방지

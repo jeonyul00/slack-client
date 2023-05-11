@@ -15,3 +15,8 @@ axios
 proxy server
 <br/>
 swr (리덕스 대안) : 요청(보통 get)을 보내서 받아온 데이터를 저장함, 로그인 후(post) 내 정보를 다시 요청(get)한 후 받아서 저장, 주기적으로 통신됨==조절 못하면 서버에 디도스 공격하는 꼴
+<br/>
+mentions
+<br/>
+websocket
+<br/>

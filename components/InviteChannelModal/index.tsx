@@ -24,8 +24,6 @@ const InviteChannelModal: FC<Props> = ({ show, onCloseModal, setShowInviteChanne
     fetcher,
   );
 
-  console.log('test workspace ::: ', workspace);
-
   const onInviteMember = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
