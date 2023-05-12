@@ -26,12 +26,12 @@ const DirectMessage = () => {
     data: chatData,
     mutate: mutateChat,
     setSize,
-  } = useSWRInfinite<IDM[]>( // useSWRInfinite : 새로운 데이터를 가져올 때 2차원 배열로 관리됨
+  } = useSWRInfinite<IDM[]>( // useSWRInfinite : 새로운 데이터를 가져올 때 2차원 배열로 관리
     (index: number) => `/api/workspaces/${workspace}/dms/${id}/chats?perPage=20&page=${index + 1}`,
     fetcher,
   );
 
-  const isEmpty = chatData?.[0]?.length === 0; // 마지막 데이터
+  const isEmpty = chatData?.[0]?.length === 0;
   const isReachingEnd = isEmpty || (chatData && chatData[chatData.length - 1]?.length < 20) || false;
 
   const scrollbarRef = useRef<Scrollbars>(null);
@@ -41,10 +41,9 @@ const DirectMessage = () => {
       e.preventDefault();
       if (chat?.trim() && chatData) {
         /* 
-          Optimistic UI : 사용자의 동작에 대한 피드백을 실제 서버 응답을 기다리지 않고 빠르게 보여주는 방식
-          먼저 ui를 바꾼 후 통신, 사용자 경험 개선
+          Optimistic UI : 사용자의 동작에 대한 피드백을 실제 서버 응답을 기다리지 않고 빠르게 보여주는 방식 : 먼저 ui를 바꾼 후 통신, 사용자 경험 개선          
           이 코드의 경우, 채팅을 쓰면 통신 후에 글이 보이므로 느림 (딜레이) => 글을 먼저 게시한 후 통신 시작
-          특징 : 안전성 < 사용성 : 이미 글을 게시했는데 통신 실패의 경우가 있을 수 있다 : revelidate하면 됨 : 서버에 검증
+          안전성 < 사용성 : 이미 글을 게시했는데 통신 실패의 경우가 있을 수 있다 : revelidate하면 서버에 검증
         */
         const savedChat = chat;
         mutateChat((prevChatData) => {
@@ -76,7 +75,6 @@ const DirectMessage = () => {
   );
 
   const onMessage = useCallback((data: IDM) => {
-    // 남의 id
     if (data.SenderId === Number(id) && myData.id !== Number(id)) {
       mutateChat((chatData) => {
         chatData?.[0].unshift(data);

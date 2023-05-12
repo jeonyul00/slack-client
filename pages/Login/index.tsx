@@ -7,7 +7,7 @@ import { Navigate } from 'react-router-dom';
 import useSWR from 'swr';
 
 const Login = () => {
-  const { data: userData, error, mutate } = useSWR('/api/users', fetcher); // mutate : 서버에 요청을 안 보내고 data 데이터를 수정
+  const { data: userData, error, mutate } = useSWR('/api/users', fetcher); // mutate : 서버에 요청을 안 보내고 data 데이터를 수정 : 추 후 서버에 통신하여 데이터를 검증함 => 매개변수의 2번째 자리에 false하면 검증 무시
   const [logInError, setLogInError] = useState(false);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');

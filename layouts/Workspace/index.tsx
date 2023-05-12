@@ -68,7 +68,7 @@ const Workspace: React.FC = () => {
   }, [socket, channelData, userData]);
 
   useEffect(() => {
-    // 워크스페이스가 바뀔 때 clean up, 클라이언트에서 소켓 연결을 종료하는 함수
+    // 워크스페이스가 바뀔 때 clean up
     return () => {
       disconnect();
     };

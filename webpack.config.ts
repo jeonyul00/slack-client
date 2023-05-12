@@ -2,7 +2,7 @@ import path from 'path';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import webpack, { Configuration as WebpackConfiguration } from 'webpack';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-// import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
 interface Configuration extends WebpackConfiguration {
@@ -66,9 +66,6 @@ const config: webpack.Configuration = {
   plugins: [
     new ForkTsCheckerWebpackPlugin({
       async: false,
-      // eslint: {
-      //   files: "./src/**/*",
-      // },
     }),
     new webpack.EnvironmentPlugin({ NODE_ENV: isDevelopment ? 'development' : 'production' }),
   ],
@@ -92,6 +89,7 @@ const config: webpack.Configuration = {
   },
 };
 
+// 개발 모드 || 배포모드 분기처리
 if (isDevelopment && config.plugins) {
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
   config.plugins.push(
@@ -101,11 +99,11 @@ if (isDevelopment && config.plugins) {
       },
     }),
   );
-  // config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'server', openAnalyzer: false }));
+  config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'server', openAnalyzer: false }));
 }
 if (!isDevelopment && config.plugins) {
-  // config.plugins.push(new webpack.LoaderOptionsPlugin({ minimize: true }));
-  // config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'static' }));
+  config.plugins.push(new webpack.LoaderOptionsPlugin({ minimize: true }));
+  config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'static' }));
 }
 
 export default config;
