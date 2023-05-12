@@ -4,11 +4,9 @@
 <br/>
 react-router-dom
 <br/>
-<br/>
 code splitting
 <br/>
- 어플리케이션의 번들(Bundle) 크기를 줄이기 위해 사용하는 기술입니다. 이를 통해 초기 로딩 시간을 줄이고, 애플리케이션의 성능을 개선할 수 있습니다. npm i @loadable/component
-<br/>
+어플리케이션의 번들(Bundle) 크기를 줄이기 위해 사용하는 기술입니다. 이를 통해 초기 로딩 시간을 줄이고, 애플리케이션의 성능을 개선할 수 있습니다. npm i @loadable/component
 <br/>
 styledcomponent : emotion
 <br/>
