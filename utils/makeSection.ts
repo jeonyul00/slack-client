@@ -4,9 +4,8 @@ import dayjs from 'dayjs';
 /*
   날짜별 그룹화
 */
-
-export default function makeSection<T extends IDM | IChat>(chatList: T[]) {
-  const sections: { [key: string]: T[] } = {};
+export default function makeSection(chatList: (IDM | IChat)[]) {
+  const sections: { [key: string]: (IDM | IChat)[] } = {};
   chatList.forEach((chat) => {
     const monthDate = dayjs(chat.createdAt).format('YYYY-MM-DD');
     if (Array.isArray(sections[monthDate])) {
